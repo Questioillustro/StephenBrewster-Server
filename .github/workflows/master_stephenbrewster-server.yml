@@ -71,4 +71,9 @@ jobs:
           app-name: 'StephenBrewster-server'
           slot-name: 'Production'
           package: .
+        env:
+          MONGO_URI: ${{ secrets.MONGO_URI}}
+          AZURE_ACCOUNT_KEY: ${{ secrets.AZURE_ACCOUNT_KEY}}
+          AZURE_ACCOUNT_NAME: ${{ secrets.AZURE_ACCOUNT_NAME}}
+          CHAT_GPT_KEY: ${{ secrets.CHAT_GPT_KEY}}
           
