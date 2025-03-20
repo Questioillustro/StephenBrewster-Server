@@ -7,12 +7,13 @@ import logger from "./logger";
 dotenv.config();
 
 const mongoUri = process.env.MONGO_URI;
+logger.info(`MongoURI=${mongoUri}`);
 
 const connectDb = async () => {
     try {
-        await mongoose.connect(`${mongoUri}/cyoa`, {} as ConnectionOptions)
+        //await mongoose.connect(`${mongoUri}/cyoa`, {} as ConnectionOptions)
         logger.info(`Connected to mongoDB`);
-        SeedStories();
+        //SeedStories();
     } catch (error) {
         logger.error(`MongoDB connection error: ${error}`);
         process.exit(1);
