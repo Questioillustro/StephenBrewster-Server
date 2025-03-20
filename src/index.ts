@@ -35,6 +35,14 @@ app.use('/api', adventureRoutes);
 app.use('/api', quickAdventureRoutes);
 app.use('/api', imagesRoutes);
 
+app.get('/health', (req, res) => {
+  res.status(200).json({
+    status: 'OK',
+    message: 'Server is running',
+    timestamp: new Date().toISOString(),
+  });
+});
+
 app.listen(port, () => {
   logger.info(`Server is Fire at http://localhost:${port}`);
 });
