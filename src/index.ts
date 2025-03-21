@@ -44,5 +44,5 @@ app.get('/health', (req, res) => {
 });
 
 app.listen(port, () => {
-  logger.info(`Server is Fire at http://localhost:${port}`);
+  logger.info(`Server is Fire at port ${port}`);
 });
