@@ -8,6 +8,7 @@ import adventureRoutes from './routes/AdventureRoutes';
 import quickAdventureRoutes from './routes/QuickAdventureRoutes';
 import imagesRoutes from './routes/ImagesRoutes';
 import bodyParser from 'body-parser';
+import openPromptRoutes from "./routes/OpenPromptRoutes";
 
 //For env File
 dotenv.config();
@@ -34,6 +35,7 @@ app.use('/api', storyRoutes);
 app.use('/api', adventureRoutes);
 app.use('/api', quickAdventureRoutes);
 app.use('/api', imagesRoutes);
+app.use('/api', openPromptRoutes);
 
 app.get('/health', (req, res) => {
   res.status(200).json({

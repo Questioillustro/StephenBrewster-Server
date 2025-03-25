@@ -1,14 +1,16 @@
-﻿import Groq from 'groq-sdk';
-import { IImagePrompt, IPrompt } from '../models/Prompt';
+﻿import { IPrompt } from '../models/Prompt';
 import logger from '../config/logger';
+import OpenAI from "openai";
 
-const grokKey = process.env.GROK_KEY;
+const GROK_KEY = process.env.GROK_KEY;
+const GROK_API_URL = process.env.GROK_URL;
 
-const groq = new Groq({
-  apiKey: `${grokKey}`,
-});
+const client = new OpenAI({
+  apiKey: GROK_KEY,
+  baseURL: GROK_API_URL
+})
 
-export const llmPrompt = async (props: IPrompt) => {
+export const grokPrompt = async (props: IPrompt) => {
   const { model, systemContext, prompt } = props;
 
   logger.info(
@@ -16,7 +18,7 @@ export const llmPrompt = async (props: IPrompt) => {
   );
 
   try {
-    const completion = await groq.chat.completions.create({
+    const completion = await client.chat.completions.create({
       model: model ?? 'grok-2-1212',
       messages: [
         {
