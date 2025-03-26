@@ -8,7 +8,7 @@ import ChatCompletionMessage = OpenAI.ChatCompletionMessage;
 type llm_option = 'grok' | 'chatgpt';
 
 interface IOpenPromptRequest {
-  prompts: string[];
+  prompt: string;
   llm: llm_option
 }
 
@@ -38,7 +38,7 @@ scheduleCacheClear();
 export const getOpenPrompt = async (req: Request, res: Response) => {
   try {
     const reqBody: IOpenPromptRequest = req.body;
-    const promptStr = reqBody.prompts.join('|');
+    const promptStr = reqBody.prompt;
 
     logger.info(`Open prompt request. Prompts: ${promptStr}`);
 

@@ -11,6 +11,6 @@ const limiter = rateLimit({
   message: { error: 'Too many requests, please try again later.' },
 });
 
-router.post('/openprompt', limiter, getOpenPrompt);
+router.post('/openprompt', getOpenPrompt);
 
 export default router;
