@@ -39,12 +39,12 @@ export const getQuickAdventure = async (req: Request, res: Response) => {
       };
 
       if (response.content !== null) {
-        await saveAdventure(response.content, adventure);
+        const savedAdventure = await saveAdventure(response.content, adventure);
+        logger.info(`Adventure saved, id=${savedAdventure._id}`);
+        res.status(200).json(savedAdventure);
       } else {
         logger.error(`No content in ChatGpt response`);
       }
-
-      res.status(200).json(adventure);
     }
   } catch (error: any) {
     res.status(400).json({ message: error.message });
@@ -69,14 +69,13 @@ const saveAdventure = async (storyText: string, adventure: IAdventure) => {
 
   try {
     const adventureDb = new Adventure(adventure);
-    await adventureDb.save();
+    const savedAdventure = await adventureDb.save();
     logger.info(`New adventure saved for story id: [${adventureDb.storyId}]`);
+    return savedAdventure;
   } catch (error) {
     logger.error(`Failed to save adventure: ${error instanceof Error ? error.message : 'Unknown'}`);
     throw error; // Let caller handle it
   }
-
-  return adventure;
 };
 
 const getPromptFromParagraph = (paragraph: string): string => {
