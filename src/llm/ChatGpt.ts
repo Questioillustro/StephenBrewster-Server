@@ -9,7 +9,7 @@ const openai = new OpenAI({
     `${chatGptKey}`,
 });
 
-export const llmPrompt = async (props: IPrompt) => {
+export const chatGptPrompt = async (props: IPrompt): Promise<string | null> => {
   const { model, systemContext, prompt } = props;
 
   logger.info(
@@ -32,7 +32,7 @@ export const llmPrompt = async (props: IPrompt) => {
     ],
   });
 
-  return completion.choices[0].message;
+  return completion.choices[0].message.content;
 };
 
 export const imagePrompt = async (props: IImagePrompt): Promise<string | null> => {

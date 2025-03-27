@@ -10,7 +10,7 @@ const client = new OpenAI({
   baseURL: GROK_API_URL
 })
 
-export const grokPrompt = async (props: IPrompt) => {
+export const grokPrompt = async (props: IPrompt): Promise<string | null> => {
   const { model, systemContext, prompt } = props;
 
   logger.info(
@@ -33,7 +33,7 @@ export const grokPrompt = async (props: IPrompt) => {
         },
       ],
     });
-    return completion.choices[0].message;
+    return completion.choices[0].message.content;
   } catch (error: any) {
     logger.error(error.toString());
     throw Error;

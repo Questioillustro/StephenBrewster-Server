@@ -1,12 +1,10 @@
 ﻿import { getStoryById } from '../services/StoryService';
-import { llmPrompt } from '../llm/ChatGpt';
+import { chatGptPrompt } from '../llm/ChatGpt';
 import { IPrompt } from '../models/Prompt';
 import logger from '../config/logger';
 import { IStory } from '../models/Story';
 import Adventure, { IAdventure, IAdventureStep } from '../models/Adventure';
 import { Request, Response } from 'express';
-import OpenAI from 'openai/index';
-import ChatCompletionMessage = OpenAI.ChatCompletionMessage;
 
 export const getQuickAdventure = async (req: Request, res: Response) => {
   try {
@@ -27,9 +25,8 @@ export const getQuickAdventure = async (req: Request, res: Response) => {
         systemContext: systemPrompts,
       };
 
-      const response: ChatCompletionMessage = await llmPrompt(prompt);
-      logger.info(`[Quick adventure response received from LLM]`);
-
+      const response: string | null = await chatGptPrompt(prompt);
+            
       const adventure: IAdventure = {
         contextPrompts: systemPrompts,
         imageUrl: story.imageUrl,
@@ -38,8 +35,8 @@ export const getQuickAdventure = async (req: Request, res: Response) => {
         storyPrompts: storyPrompts,
       };
 
-      if (response.content !== null) {
-        const savedAdventure = await saveAdventure(response.content, adventure);
+      if (response !== null) {
+        const savedAdventure = await saveAdventure(response, adventure);
         logger.info(`Adventure saved, id=${savedAdventure._id}`);
         res.status(200).json(savedAdventure);
       } else {

@@ -1,18 +1,15 @@
 ﻿import {Request, Response} from "express";
 import {IPrompt} from "../models/Prompt";
 import logger from "../config/logger";
-import {grokPrompt} from "../llm/Grok";
-import OpenAI from "openai";
-import ChatCompletionMessage = OpenAI.ChatCompletionMessage;
-
-type llm_option = 'grok' | 'chatgpt';
+import {LLMIdentifier, llmPrompt} from "../llm/PromptDispatcher";
 
 interface IOpenPromptRequest {
   prompt: string;
-  llm: llm_option
+  llmIdentifier?: LLMIdentifier;
+  bypassCache?: boolean;
 }
 
-const promptCache = new Map<string, ChatCompletionMessage>();
+const promptCache = new Map<string, string>();
 let cacheTimeout: NodeJS.Timeout;
 
 function scheduleCacheClear() {
@@ -39,28 +36,34 @@ export const getOpenPrompt = async (req: Request, res: Response) => {
   try {
     const reqBody: IOpenPromptRequest = req.body;
     const promptStr = reqBody.prompt;
+    const llm: LLMIdentifier = reqBody.llmIdentifier ?? 'grok';
+    const bypassCache: boolean = reqBody.bypassCache ?? false;
 
-    logger.info(`Open prompt request. Prompts: ${promptStr}`);
+    logger.info(`Open prompt request. Prompt: ${promptStr}`);
 
-    const cachedResponse = promptCache.get(promptStr);
-    if (cachedResponse) {
-      logger.info(`Serving cached response for prompt: ${promptStr}`);
-      const parsed = JSON.parse(cachedResponse.content!);
-      const cleaned = JSON.stringify(parsed);
-      return res.status(200).json(cleaned);
+    if (!bypassCache) {
+      const cachedResponse = promptCache.get(promptStr);
+      if (cachedResponse) {
+        logger.info(`Serving cached response for prompt: ${promptStr}`);
+        return res.status(200).json(cachedResponse);
+      }
     }
 
     const prompt: IPrompt = {
       prompt: promptStr,
       systemContext: `You are an assistant with real-time web search capabilities. Provide the most current information available as of ${new Date()}.`,
     };
-
-    const response: ChatCompletionMessage = await grokPrompt(prompt);
-    const parsed = JSON.parse(response.content!);
+    
+    const response: string | null = await llmPrompt(prompt, llm);
+    
+    if (!response) {
+      res.status(400).json({ message: 'NULL response from LLM' });  
+    }
+    
+    const parsed = JSON.parse(response!);
     const cleaned = JSON.stringify(parsed);
 
-    // Store in cache
-    promptCache.set(promptStr, response);
+    promptCache.set(promptStr, cleaned);
     logger.info(`Prompt response cached: ${cleaned}`);
 
     res.status(200).json(cleaned);
