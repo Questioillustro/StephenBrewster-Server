@@ -2,6 +2,7 @@
   model?: string;
   systemContext?: string;
   prompt: string;
+  temperature?: number;
 }
 
 export interface IImagePrompt {

@@ -11,10 +11,10 @@ const client = new OpenAI({
 })
 
 export const grokPrompt = async (props: IPrompt): Promise<string | null> => {
-  const { model, systemContext, prompt } = props;
+  const { model, systemContext, prompt, temperature } = props;
 
   logger.info(
-    `LLM prompt to Grok: **\nModel: [${model}] \nContext: [${systemContext}]\nPrompt: [${prompt}]\n**`,
+    `LLM prompt to Grok: **\nModel: [${model}] \nContext: [${systemContext}]\nPrompt: [${prompt}]\nTemp: [${temperature}]**`,
   );
 
   try {
@@ -32,6 +32,7 @@ export const grokPrompt = async (props: IPrompt): Promise<string | null> => {
           content: prompt ?? 'Tell a story about a 404 not found error, keep it short and snarky.',
         },
       ],
+      temperature: temperature
     });
     return completion.choices[0].message.content;
   } catch (error: any) {
