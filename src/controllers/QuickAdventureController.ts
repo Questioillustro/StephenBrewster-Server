@@ -11,10 +11,9 @@ export const getQuickAdventure = async (req: Request, res: Response) => {
     const id = req.params.id;
     const temperature = req.body.temperature;
     const llm = req.body.llm;
+    const characterPrompts = req.body.character;
     const story: IStory | null = await getStoryById(id);
     const noStoryError = `No story found [ID : ${id}]`;
-    
-    logger.info("AM I INSANE OR SOMETHING")
 
     if (!story) {
       logger.error(noStoryError);
@@ -23,7 +22,7 @@ export const getQuickAdventure = async (req: Request, res: Response) => {
       logger.info(`Building an adventure: \n[Name: ${JSON.stringify(story.name)}]\n [llm: ${llm}]\n [temperature: ${temperature}]`);
 
       const storyPrompts = getStoryPrompts(story, req);
-      const systemPrompts = getSystemContextPrompts(story);
+      const systemPrompts = getSystemContextPrompts(story, characterPrompts);
 
       const prompt: IPrompt = {
         prompt: storyPrompts,
@@ -86,21 +85,21 @@ const getPromptFromParagraph = (paragraph: string): string => {
   return match?.[1] ?? '';
 };
 
-const getSystemContextPrompts = (story: IStory): string => {
+const getSystemContextPrompts = (story: IStory, characterPrompts: string): string => {
   const STORY_BLOCK_CLASSES = `story-block`;
   const HTML_FORMAT_RESPONSE_CONTEXT = `Format the responses by wrapping the paragraphs in 
   div elements with a class called '${STORY_BLOCK_CLASSES}'`;
-  const MAIN_CHARACTER_DESC = `Create a vivid description for each character in the story`;
+  const MAIN_CHARACTER_DESC = `Here is the main character description to use in each llm prompt: ${characterPrompts}`;
   const RANDOM_CHARACTER_COUNT = `Choose a random number between 1 and 5, the result is
   the number of characters to include in the story`;
-  const RANDOM_PLOT = `Generate 10 basic plotlines for the story and choose one by rolling
+  const RANDOM_PLOT = `Generate 10 plots for the story and choose one by rolling
   a random number`;
   const NO_LINE_BREAKS = `Do not include line breaks or '\n' strings`;
   const NO_THE_END = `Do not finish with 'The End'`;
   const CREATE_IMAGE_PROMPT = `For each paragraph create an llm prompt that we can use to 
-  generate an image for that paragraph, the prompt should include vivid descriptions for each character in the scene and 
-  include their approximate age as determined by the paragraph or story at large, and a description of the scenery from 
-  the paragraph, and a request the art style be studio ghibli, add the prompt to the end of the paragraph wrapped in a 
+  generate an image for that paragraph which includes: vivid descriptions for each character in the scene and 
+  include their approximate age as determined by the paragraph or story at large, a description of the scenery from 
+  the paragraph, a request the art style be studio ghibli, add the prompt to the end of the paragraph wrapped in a 
   span tag that is styled to be hidden.`;
   const DELIMITER = `Separate each paragraph with a '|' delimiter`;
   const MIN_LENGTH = `Make it at least 7 paragraphs long`;
@@ -117,6 +116,7 @@ const getSystemContextPrompts = (story: IStory): string => {
   systemContextArray.push(DELIMITER);
   systemContextArray.push(MIN_LENGTH);
   systemContextArray.push(RANDOM_CHARACTER_COUNT);
+  systemContextArray.push(RANDOM_PLOT);
   systemContextArray.push(SECOND_PASS);
 
   const asString = systemContextArray.join('|');
