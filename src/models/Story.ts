@@ -9,7 +9,7 @@ export interface IStory {
   quickStoryPrompts: string[];
 }
 
-const storySchema = new mongoose.Schema({
+export const storySchema = new mongoose.Schema({
   _id: String,
   systemContext: [String],
   name: String,

@@ -37,6 +37,7 @@ export const getQuickAdventure = async (req: Request, res: Response) => {
         steps: [],
         storyId: story._id,
         storyPrompts: storyPrompts,
+        story: story
       };
 
       if (response !== null) {
@@ -90,10 +91,6 @@ const getSystemContextPrompts = (story: IStory, characterPrompts: string): strin
   const HTML_FORMAT_RESPONSE_CONTEXT = `Format the responses by wrapping the paragraphs in 
   div elements with a class called '${STORY_BLOCK_CLASSES}'`;
   const MAIN_CHARACTER_DESC = `Here is the main character description to use in each llm prompt: ${characterPrompts}`;
-  const RANDOM_CHARACTER_COUNT = `Choose a random number between 1 and 5, the result is
-  the number of characters to include in the story`;
-  const RANDOM_PLOT = `Generate 10 plots for the story and choose one by rolling
-  a random number`;
   const NO_LINE_BREAKS = `Do not include line breaks or '\n' strings`;
   const NO_THE_END = `Do not finish with 'The End'`;
   const CREATE_IMAGE_PROMPT = `For each paragraph create an llm prompt that we can use to 
@@ -115,8 +112,6 @@ const getSystemContextPrompts = (story: IStory, characterPrompts: string): strin
   systemContextArray.push(CREATE_IMAGE_PROMPT);
   systemContextArray.push(DELIMITER);
   systemContextArray.push(MIN_LENGTH);
-  systemContextArray.push(RANDOM_CHARACTER_COUNT);
-  systemContextArray.push(RANDOM_PLOT);
   systemContextArray.push(SECOND_PASS);
 
   const asString = systemContextArray.join('|');
@@ -127,13 +122,8 @@ const getSystemContextPrompts = (story: IStory, characterPrompts: string): strin
 const getStoryPrompts = (story: IStory, req: any): string => {
   logger.info(`gettingStoryPrompts: request is: ${JSON.stringify(req.body)}`);
 
-  let storyPromptArray: string[] = [];
+  let storyPromptArray: string[] = [req.body.prompts];
   storyPromptArray = storyPromptArray.concat(story.quickStoryPrompts ?? []);
-
-  const { prompts } = req.body;
-  if (Array.isArray(prompts) && prompts.every((p) => typeof p === 'string')) {
-    storyPromptArray = storyPromptArray.concat(prompts);
-  }
 
   const asString = storyPromptArray.join('|');
 

@@ -1,4 +1,5 @@
 ﻿import mongoose from 'mongoose';
+import {IStory, storySchema} from "./Story";
 
 export interface IAdventure {
   _id?: string;
@@ -7,6 +8,7 @@ export interface IAdventure {
   storyPrompts: string;
   imageUrl: string;
   steps: IAdventureStep[];
+  story: IStory;
 }
 
 export interface IAdventureStep {
@@ -17,6 +19,7 @@ export interface IAdventureStep {
 
 const adventureSchema = new mongoose.Schema({
   storyId: String,
+  story: storySchema,
   contextPrompts: [String],
   storyPrompts: [String],
   imageUrl: String,
