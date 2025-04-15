@@ -30,7 +30,8 @@
     "express-validator": "^7.0.1",
     "mongoose": "^8.5.3",
     "openai": "^4.56.0",
-    "winston": "^3.11.0"
+    "winston": "^3.11.0",
+    "zod": "^3.24.2"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^6.20.0",

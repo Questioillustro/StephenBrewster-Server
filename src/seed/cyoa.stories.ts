@@ -6,7 +6,7 @@ const STORIES = [
     imageUrl: 'https://azurefunctionsapp2022060.blob.core.windows.net/cyoa/cyoa_fire_escape_01.jpg',
     description: "Escape the burning building before you're cooked!",
     quickStoryPrompts: [
-      'Tell a story about waking up in a burning building and using quick wits to escape and help others',
+      'Tell a story about waking up in a burning building',
     ],
     __v: 3,
   },
@@ -18,18 +18,18 @@ const STORIES = [
       'https://azurefunctionsapp2022060.blob.core.windows.net/cyoa/cyoa_forest_rescue_01.png',
     description: 'Save your sister from the spooky forest before the monsters get her!',
     quickStoryPrompts: [
-      'Tell a story about searching for your sister who is lost in a haunted forest and helping her escape to safety',
+      'Tell a story about searching for someone who is lost in a haunted forest',
     ],
     __v: 2,
   },
   {
     _id: '3',
     systemContext: ['You are telling stories to children'],
-    name: 'Mystery of the Universe',
+    name: 'The Universe',
     imageUrl:
       'https://azurefunctionsapp2022060.blob.core.windows.net/cyoa/cyoa_universal_mystery_01.jpg',
     description: 'Explore the universe and find out its deepest secret!',
-    quickStoryPrompts: ['Tell a story about searching the universe and finding the secret of life'],
+    quickStoryPrompts: ['Tell a story about exploring the universe'],
     __v: 2,
   },
   {
@@ -39,18 +39,18 @@ const STORIES = [
     imageUrl: 'https://azurefunctionsapp2022060.blob.core.windows.net/cyoa/exploringnewworld.png',
     description: 'Explore a brand new planet!',
     quickStoryPrompts: [
-      'Tell a story about exploring a newly discovered planet in a new solar system',
+      'Tell a story about exploring a newly discovered planet somewhere in the universe',
     ],
     __v: 2,
   },
   {
     _id: '5',
     systemContext: ['You are telling educational stories to children'],
-    name: 'Learn About Democracy',
+    name: 'Democracy',
     imageUrl: 'https://azurefunctionsapp2022060.blob.core.windows.net/cyoa/democracy.png',
     description: 'Learn how democracy works!',
     quickStoryPrompts: [
-      'Tell a story about democracy and cover the important topics about how democracy works and its history',
+      'Tell a story about democracy',
     ],
     __v: 2,
   },
@@ -61,7 +61,7 @@ const STORIES = [
     imageUrl: 'https://azurefunctionsapp2022060.blob.core.windows.net/cyoa/japan.png',
     description: 'Learn all about Japan!',
     quickStoryPrompts: [
-      'Tell a story about exploring Japanese culture and history, cover interesting topics about the country',
+      'Tell a story about exploring Japanese culture and history',
     ],
     __v: 2,
   },
@@ -72,18 +72,18 @@ const STORIES = [
     imageUrl: 'https://azurefunctionsapp2022060.blob.core.windows.net/cyoa/solarsystem.png',
     description: 'Learn all about our solar system!',
     quickStoryPrompts: [
-      'Tell a story about exploring the solar system, include interesting facts about the sun, planets and the asteroid belt',
+      'Tell a story about exploring the solar system, include interesting facts about all aspects of the objects within it',
     ],
     __v: 2,
   },
   {
     _id: '8',
     systemContext: ['You are telling educational stories to children'],
-    name: 'Learn About Respect',
+    name: 'Respect',
     imageUrl: 'https://azurefunctionsapp2022060.blob.core.windows.net/cyoa/respect.png',
     description: 'Learn all about respecting your fellow humans!',
     quickStoryPrompts: [
-      'Tell a story about learning to respect other people and treat them how you want to be treated',
+      'Tell a story about learning to respect other people',
     ],
     __v: 2,
   },

@@ -9,6 +9,7 @@ import quickAdventureRoutes from './routes/QuickAdventureRoutes';
 import imagesRoutes from './routes/ImagesRoutes';
 import bodyParser from 'body-parser';
 import openPromptRoutes from "./routes/OpenPromptRoutes";
+import grokModelRoutes from "./routes/GrokModels";
 
 //For env File
 dotenv.config();
@@ -36,6 +37,7 @@ app.use('/api', adventureRoutes);
 app.use('/api', quickAdventureRoutes);
 app.use('/api', imagesRoutes);
 app.use('/api', openPromptRoutes);
+app.use('/api', grokModelRoutes);
 
 app.get('/health', (req, res) => {
   res.status(200).json({

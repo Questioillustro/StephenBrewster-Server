@@ -94,14 +94,11 @@ const getSystemContextPrompts = (story: IStory, characterPrompts: string): strin
   const NO_LINE_BREAKS = `Do not include line breaks or '\n' strings`;
   const NO_THE_END = `Do not finish with 'The End'`;
   const CREATE_IMAGE_PROMPT = `For each paragraph create an llm prompt that we can use to 
-  generate an image for that paragraph which includes: vivid descriptions for each character in the scene and 
-  include their approximate age as determined by the paragraph or story at large, a description of the scenery from 
-  the paragraph, a request the art style be studio ghibli, add the prompt to the end of the paragraph wrapped in a 
-  span tag that is styled to be hidden.`;
+  generate an image for that paragraph which includes: vivid descriptions for each character in the scene, a description 
+  of the scenery from the paragraph, a request the art style be studio ghibli, add the prompt to the end of the paragraph 
+  wrapped in a span tag that is styled to be hidden.`;
   const DELIMITER = `Separate each paragraph with a '|' delimiter`;
   const MIN_LENGTH = `Make it at least 7 paragraphs long`;
-  const SECOND_PASS = `After generating the story, review it and make any
-  improvements that you think it needs, update the image prompt for each paragraph as needed`; 
 
   const systemContextArray = [];
   systemContextArray.push(story.systemContext);
@@ -112,7 +109,6 @@ const getSystemContextPrompts = (story: IStory, characterPrompts: string): strin
   systemContextArray.push(CREATE_IMAGE_PROMPT);
   systemContextArray.push(DELIMITER);
   systemContextArray.push(MIN_LENGTH);
-  systemContextArray.push(SECOND_PASS);
 
   const asString = systemContextArray.join('|');
   logger.info(`Full System Context: [${asString}]`);

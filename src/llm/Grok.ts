@@ -2,13 +2,15 @@
 import logger from '../config/logger';
 import OpenAI from "openai";
 
-const GROK_KEY = process.env.GROK_KEY;
-const GROK_API_URL = process.env.GROK_URL;
+export const GROK_KEY = process.env.GROK_KEY;
+export const GROK_API_URL = process.env.GROK_URL;
 
 const client = new OpenAI({
   apiKey: GROK_KEY,
   baseURL: GROK_API_URL
 })
+
+export type GROK_MODELS = 'grok-3-beta' | 'grok-3-mini-beta';
 
 export const grokPrompt = async (props: IPrompt): Promise<string | null> => {
   const { model, systemContext, prompt, temperature } = props;
@@ -19,7 +21,7 @@ export const grokPrompt = async (props: IPrompt): Promise<string | null> => {
 
   try {
     const completion = await client.chat.completions.create({
-      model: model ?? 'grok-2-1212',
+      model: model ?? 'grok-3-mini-beta',
       messages: [
         {
           role: 'system',
@@ -32,7 +34,7 @@ export const grokPrompt = async (props: IPrompt): Promise<string | null> => {
           content: prompt ?? 'Tell a story about a 404 not found error, keep it short and snarky.',
         },
       ],
-      temperature: temperature
+      temperature: temperature,
     });
     return completion.choices[0].message.content;
   } catch (error: any) {
