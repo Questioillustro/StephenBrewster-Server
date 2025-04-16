@@ -8,11 +8,13 @@ export const generateImage = async (req: any, res: any) => {
     const prompt: string = req.body.prompt;
     const id: string = req.params.id;
     const index: number = req.params.index;
+    
+    const fullPrompt = `Art style should be inspired by studio ghibli. Do not include any text. ${prompt}`;
 
     const adventure = await findById(id);
     if (!adventure) res.status(404).json('Failed to get adventure');
 
-    const base64Image = await imagePrompt({ prompt: prompt });
+    const base64Image = await imagePrompt({ prompt: fullPrompt });
     if (!base64Image) res.status(404).json('Failed to get image from AI');
 
     const azureUrl = await uploadImage(base64Image!, {});

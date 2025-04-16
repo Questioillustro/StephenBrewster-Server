@@ -11,6 +11,6 @@ const limiter = rateLimit({
   message: { error: 'Too many requests, please try again later.' },
 });
 
-router.post('/quickadventure/:id', limiter, getQuickAdventure);
+router.post('/buildaventure', limiter, getQuickAdventure);
 
 export default router;

@@ -32,7 +32,6 @@ app.get('/', (req: Request, res: Response) => {
 
 app.use(express.json());
 
-app.use('/api', storyRoutes);
 app.use('/api', adventureRoutes);
 app.use('/api', quickAdventureRoutes);
 app.use('/api', imagesRoutes);

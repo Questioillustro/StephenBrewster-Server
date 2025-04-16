@@ -1,10 +1,8 @@
-﻿import { findByStoryId } from '../services/AdventureService';
+﻿import { getAllAdventures} from '../services/AdventureService';
 
-export const getByStoryId = async (req: any, res: any) => {
+export const getAll = async (req: any, res: any) => {
   try {
-    const { storyid } = req.params;
-
-    const adventures = await findByStoryId(storyid);
+    const adventures = await getAllAdventures();
     res.status(200).json(adventures);
   } catch (error: any) {
     res.status(400).json({ message: error.message });
