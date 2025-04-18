@@ -9,7 +9,7 @@ export const generateImage = async (req: any, res: any) => {
     const id: string = req.params.id;
     const index: number = req.params.index;
     
-    const fullPrompt = `Art style should be inspired by studio ghibli. Do not include any text. ${prompt}`;
+    const fullPrompt = `Do not include any text. ${prompt}`;
 
     const adventure = await findById(id);
     if (!adventure) res.status(404).json('Failed to get adventure');

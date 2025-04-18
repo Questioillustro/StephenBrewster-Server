@@ -29,6 +29,7 @@ const AdventureSchemaMongoose = new mongoose.Schema({
 const AdventureDBSchema = new mongoose.Schema({
   contextPrompts: { type: String },
   storyPrompts: { type: String },
+  artStyle: { type: String },
   adventure: { type: AdventureSchemaMongoose }
 });
 
@@ -45,6 +46,7 @@ export interface IAdventure {
   _id?: string;
   contextPrompts: string;
   storyPrompts: string;
+  artStyle: string;
   adventure: { 
     pages: IAdventurePage[];
     title: string;

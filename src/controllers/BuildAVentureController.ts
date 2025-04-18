@@ -10,6 +10,7 @@ export const getQuickAdventure = async (req: Request, res: Response) => {
     const temperature = req.body.temperature;
     const llm = req.body.llm;
     const characterPrompts = req.body.character;
+    const artStyle = req.body.artStyle;
 
     const storyPrompts = getStoryPrompts(req);
     const systemPrompts = getSystemContextPrompts(characterPrompts);
@@ -32,6 +33,7 @@ export const getQuickAdventure = async (req: Request, res: Response) => {
       contextPrompts: systemPrompts,
       adventure: parsed,
       storyPrompts: storyPrompts,
+      artStyle: artStyle
     };
 
     const savedAdventure = await saveAdventure(adventure);
