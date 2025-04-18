@@ -35,6 +35,7 @@ export const grokPrompt = async (props: IPrompt): Promise<string | null> => {
         },
       ],
       temperature: temperature,
+      response_format: { type: "json_object"}
     });
     return completion.choices[0].message.content;
   } catch (error: any) {

@@ -20,7 +20,7 @@ export const generateImage = async (req: any, res: any) => {
     const azureUrl = await uploadImage(base64Image!, {});
     if (!azureUrl) res.status(404).json('Failed to upload image to azure');
 
-    adventure!.steps[index].imageUrl = azureUrl!;
+    adventure!.adventure.pages[index].imageUrl = azureUrl!;
 
     const adventureDb = new Adventure(adventure);
     await adventureDb.save();

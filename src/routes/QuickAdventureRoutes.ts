@@ -1,5 +1,5 @@
 ﻿import express from 'express';
-import { getQuickAdventure } from '../controllers/QuickAdventureController';
+import {getQuickAdventure} from "../controllers/BuildAVentureController";
 
 const router = express.Router();
 

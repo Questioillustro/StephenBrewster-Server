@@ -1,8 +1,8 @@
 ﻿export interface IPrompt {
-  model?: string;
-  systemContext?: string;
   prompt: string;
   temperature?: number;
+  model?: string;
+  systemContext?: string;
 }
 
 export interface IImagePrompt {
