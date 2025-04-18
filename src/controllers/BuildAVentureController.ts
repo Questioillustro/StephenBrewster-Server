@@ -63,15 +63,9 @@ const saveAdventure = async (adventure: IAdventure) => {
   }
 };
 
-const getPromptFromParagraph = (paragraph: string): string => {
-  const regex = /<span[^>]*>(.*?)<\/span>/;
-  const match = paragraph.match(regex);
-  return match?.[1] ?? '';
-};
-
 const getSystemContextPrompts = (characterPrompts: string): string => {
   const MAIN_CHARACTER_DESC = `Main character description: ${characterPrompts}.`;
-  const JSON_FORMAT = `Respond with JSON that matches this schema: ${ZodSchemaString}.`
+  const JSON_FORMAT = `Respond with JSON that matches this schema: ${ZodSchemaString}.`;
   const NO_LINE_BREAKS = `Do not include line breaks or '\n' strings.`;
   const NO_THE_END = `Do not finish with 'The End'.`;
   const CREATE_IMAGE_PROMPT = `For each page create an llm prompt that we can use to 
@@ -81,11 +75,12 @@ const getSystemContextPrompts = (characterPrompts: string): string => {
 
   const systemContextArray = [];
   systemContextArray.push(MAIN_CHARACTER_DESC);
+  systemContextArray.push(JSON_FORMAT);
   systemContextArray.push(NO_LINE_BREAKS);
   systemContextArray.push(NO_THE_END);
   systemContextArray.push(CREATE_IMAGE_PROMPT);
   systemContextArray.push(MIN_LENGTH);
-  systemContextArray.push(JSON_FORMAT);
+  
 
   const asString = systemContextArray.join(' ');
   logger.info(`Full System Context: [${asString}]`);
@@ -97,7 +92,7 @@ const getStoryPrompts = (req: any): string => {
 
   let storyPromptArray: string[] = [req.body.prompts];
 
-  const asString = storyPromptArray.join('|');
+  const asString = storyPromptArray.join(' ');
 
   logger.info(`Full set of story prompts: [${asString}]`);
   return asString;
