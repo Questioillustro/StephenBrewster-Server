@@ -47,7 +47,7 @@ export const imagePrompt = async (props: IImagePrompt): Promise<string | null> =
 
   const response = await openai.images.generate({
     response_format: 'b64_json',
-    prompt: `cartoon artwork, children's book, ${prompt}`,
+    prompt: `${prompt}`,
     model: model ?? 'dall-e-3',
     size: size ?? '1024x1024',
     quality: quality ?? 'standard',
