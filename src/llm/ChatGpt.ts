@@ -31,6 +31,10 @@ export const chatGptPrompt = async (props: IPrompt): Promise<string | null> => {
       },
     ],
   });
+  
+  const response = completion.choices[0].message.content;
+  
+  logger.info(`Raw response: ${response}`);
 
   return completion.choices[0].message.content;
 };

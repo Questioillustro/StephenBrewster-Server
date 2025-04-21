@@ -51,7 +51,11 @@ export const getOpenPrompt = async (req: Request, res: Response) => {
 
     const prompt: IPrompt = {
       prompt: promptStr,
-      systemContext: `You are an assistant with real-time web search capabilities. Provide the most current information available as of ${new Date()}.`,
+      systemContext: 
+        `You are an assistant with real-time web search capabilities. 
+        Provide the most current information available as of ${new Date()}.
+        Don't include \`\`\`json wrapping string, only JSON data.
+        Make sure to properly escape control characters so the result can be parsed as JSON.`,
     };
     
     const response: string | null = await llmPrompt(prompt, llm);
