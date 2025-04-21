@@ -20,8 +20,9 @@ export const grokPrompt = async (props: IPrompt): Promise<string | null> => {
   );
 
   try {
+    // @ts-ignore
     const completion = await client.chat.completions.create({
-      model: model ?? 'grok-3-mini-beta',
+      model: model ?? 'grok-3-beta',
       messages: [
         {
           role: 'system',
@@ -35,9 +36,16 @@ export const grokPrompt = async (props: IPrompt): Promise<string | null> => {
         },
       ],
       temperature: temperature,
-      response_format: { type: "json_object"}
+      response_format: { type: "json_object"},
     });
-    return completion.choices[0].message.content;
+
+    logger.info(JSON.stringify(completion));
+    
+    const content = completion.choices[0].message.content;
+    // @ts-ignore
+    const reasoning = completion.choices[0].message.reasoning_content;
+    
+    return content ?? reasoning;
   } catch (error: any) {
     logger.error(error.toString());
     throw Error;

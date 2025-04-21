@@ -52,9 +52,7 @@ export const getOpenPrompt = async (req: Request, res: Response) => {
     const prompt: IPrompt = {
       prompt: promptStr,
       systemContext: 
-        `You are an assistant with real-time web search capabilities. 
-        Provide the most current information available as of ${new Date()}.
-        Don't include \`\`\`json wrapping string, only JSON data.
+        `Don't include \`\`\`json wrapping string, only JSON data.
         Make sure to properly escape control characters so the result can be parsed as JSON.`,
     };
     
@@ -68,8 +66,6 @@ export const getOpenPrompt = async (req: Request, res: Response) => {
     const cleaned = JSON.stringify(parsed);
 
     promptCache.set(promptStr, cleaned);
-    logger.info(`Prompt response cached: ${cleaned}`);
-
     res.status(200).json(cleaned);
   } catch (error: any) {
     res.status(400).json({ message: error.message });
