@@ -61,7 +61,7 @@ export const getOpenPrompt = async (req: Request, res: Response) => {
     const response: string | null = await llmPrompt(prompt, llm);
     
     if (!response) {
-      res.status(400).json({ message: 'NULL response from LLM' });  
+      throw 'NULL response from LLM';
     }
     
     const parsed = JSON.parse(response!);
