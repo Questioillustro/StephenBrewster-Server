@@ -10,8 +10,8 @@ import imagesRoutes from './routes/ImagesRoutes';
 import bodyParser from 'body-parser';
 import openPromptRoutes from "./routes/OpenPromptRoutes";
 import grokModelRoutes from "./routes/GrokModels";
+import codegenRoutes from "./routes/CodegenRoutes";
 
-//For env File
 dotenv.config();
 
 const app: Application = express();
@@ -37,6 +37,7 @@ app.use('/api', quickAdventureRoutes);
 app.use('/api', imagesRoutes);
 app.use('/api', openPromptRoutes);
 app.use('/api', grokModelRoutes);
+app.use('/api', codegenRoutes);
 
 app.get('/health', (req, res) => {
   res.status(200).json({

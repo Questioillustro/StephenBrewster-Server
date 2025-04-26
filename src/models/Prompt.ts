@@ -5,6 +5,8 @@
   systemContext?: string;
 }
 
+export type LlmOptionType = 'grok' | 'chatgpt' | 'claude';
+
 export type imageSizeType = '1024x1024' | '256x256' | '512x512' | '1792x1024' | '1024x1792' | null | undefined;
 
 export interface IImagePrompt {

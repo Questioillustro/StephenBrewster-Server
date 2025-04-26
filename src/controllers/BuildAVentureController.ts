@@ -1,8 +1,8 @@
-﻿import { IPrompt } from '../models/Prompt';
+﻿import {IPrompt, LlmOptionType} from '../models/Prompt';
 import logger from '../config/logger';
-import Adventure, {AdventureSchemaZod, IAdventure, ZodSchemaString} from '../models/Adventure';
+import Adventure, {IAdventure, ZodSchemaString} from '../models/Adventure';
 import { Request, Response } from 'express';
-import {LLMIdentifier, llmPrompt} from "../llm/PromptDispatcher";
+import {llmPrompt} from "../llm/PromptDispatcher";
 import {z} from 'zod';
 
 export const getQuickAdventure = async (req: Request, res: Response) => {
@@ -21,7 +21,7 @@ export const getQuickAdventure = async (req: Request, res: Response) => {
       temperature: temperature
     };
 
-    const rawResponse: string | null = await llmPrompt(prompt, llm as LLMIdentifier);
+    const rawResponse: string | null = await llmPrompt(prompt, llm as LlmOptionType);
     
     logger.info(`Raw Response: ${rawResponse}`)
     

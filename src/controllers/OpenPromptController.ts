@@ -1,11 +1,11 @@
 ﻿import {Request, Response} from "express";
-import {IPrompt} from "../models/Prompt";
+import {IPrompt, LlmOptionType} from "../models/Prompt";
 import logger from "../config/logger";
-import {LLMIdentifier, llmPrompt} from "../llm/PromptDispatcher";
+import {llmPrompt} from "../llm/PromptDispatcher";
 
 interface IOpenPromptRequest {
   prompt: string;
-  llmIdentifier?: LLMIdentifier;
+  llmIdentifier?: LlmOptionType;
   bypassCache?: boolean;
 }
 
@@ -36,7 +36,7 @@ export const getOpenPrompt = async (req: Request, res: Response) => {
   try {
     const reqBody: IOpenPromptRequest = req.body;
     const promptStr = reqBody.prompt;
-    const llm: LLMIdentifier = reqBody.llmIdentifier ?? 'grok';
+    const llm: LlmOptionType = reqBody.llmIdentifier ?? 'grok';
     const bypassCache: boolean = reqBody.bypassCache ?? false;
 
     logger.info(`Open prompt request. Prompt: ${promptStr}`);

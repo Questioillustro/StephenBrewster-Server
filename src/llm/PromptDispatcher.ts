@@ -1,11 +1,9 @@
 ﻿import {grokPrompt} from "./Grok";
 import {claudePrompt} from "./Claude";
 import {chatGptPrompt} from "./ChatGpt";
-import {IPrompt} from "../models/Prompt";
+import {IPrompt, LlmOptionType} from "../models/Prompt";
 
-export type LLMIdentifier = 'grok' | 'claude' | 'chatgpt';
-
-export const llmPrompt = async (prompt: IPrompt, llm: LLMIdentifier) : Promise<string | null> => {
+export const llmPrompt = async (prompt: IPrompt, llm: LlmOptionType) : Promise<string | null> => {
   switch (llm) {
     case 'grok':
       return await grokPrompt(prompt);
