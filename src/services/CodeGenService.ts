@@ -4,7 +4,11 @@ export const findById = async (id: string): Promise<ICodeGen | null> => {
   return CodeGenModel.findOne({ _id: id });
 };
 
-export const getAllCodeGen = async(): Promise<ICodeGen[] | null> => {
+export const getAll = async(): Promise<ICodeGen[] | null> => {
+  return CodeGenModel.find({});
+}
+
+export const search = async(): Promise<ICodeGen[] | null> => {
   return CodeGenModel.find({});
 }
 
