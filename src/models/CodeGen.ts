@@ -1,46 +1,48 @@
 ﻿import mongoose, { Schema } from 'mongoose';
 import { LlmOptionType } from './Prompt';
 
-// Define TypeScript interfaces
 export interface ICodeGen {
   _id?: string;
-  request: ICodeGenSaveRequest;
+  request: ICodeGenRequest;
   response: ICodeGenResponse;
   notes?: string[];
 }
 
 export interface ICodeGenSaveRequest {
+  codeGen: ICodeGen;
+}
+
+export interface ICodeGenRequest {
   framework?: FrameworkType;
   specialRequests?: string[];
   codeExample?: string;
   uiLibrary?: string;
   prompt: string;
   llmOption: LlmOptionType;
-  code: ICodeGenResponse;
 }
 
-export interface ICodeGenObject {
+export interface ICodeObject {
   fileName: string;
   content: string;
 }
 
 export interface ICodeGenResponse {
-  code: ICodeGenObject[];
+  code: ICodeObject[];
 }
 
 export type FrameworkType = 'React' | 'Angular' | 'Vue' | 'Javascript';
 
 // Mongoose Schemas
-const CodeGenObjectSchema = new Schema<ICodeGenObject>({
+const CodeObjectSchema = new Schema<ICodeObject>({
   fileName: { type: String, required: true },
   content: { type: String, required: true }
 });
 
 const CodeGenResponseSchema = new Schema<ICodeGenResponse>({
-  code: { type: [CodeGenObjectSchema], required: true }
+  code: { type: [CodeObjectSchema], required: true }
 });
 
-const CodeGenSaveRequestSchema = new Schema<ICodeGenSaveRequest>({
+const CodeGenRequestSchema = new Schema<ICodeGenRequest>({
   framework: {
     type: String,
     enum: ['React', 'Angular', 'Vue', 'Javascript'],
@@ -63,18 +65,14 @@ const CodeGenSaveRequestSchema = new Schema<ICodeGenSaveRequest>({
     required: true
   },
   llmOption: {
-    type: String, 
+    type: String,
     required: true
   },
-  code: {
-    type: CodeGenResponseSchema,
-    required: true
-  }
-});
+})
 
 const CodeGenSchema = new Schema<ICodeGen>({
   request: {
-    type: CodeGenSaveRequestSchema,
+    type: CodeGenRequestSchema,
     required: true
   },
   response: {
